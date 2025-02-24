@@ -1,0 +1,101 @@
+﻿@model ActorCreateVM
+
+@{
+    ViewData["Title"] = "Add Actor";
+}
+
+<div class="container">
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-info">
+            @ViewBag.Message
+        </div>
+    }
+    <div class="row p-3">
+        <div class="col-md-12">
+            <h3>Add New Actor</h3>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div class="col-md-6">
+            <form asp-controller="Actor" asp-action="Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group mb-3">
+                    <label asp-for="FirstName" class="form-label fw-bold"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="LastName" class="form-label fw-bold"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="DateOfBirth" class="form-label fw-bold"></label>
+                    <input asp-for="DateOfBirth" class="form-control" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Gender" class="form-label fw-bold"></label>
+                    <div class="d-flex">
+                        <div class="form-check px-4">
+                            <input asp-for="Gender" class="form-check-input" value="male" type="radio" id="genderMale">
+                            <label class="form-check-label" for="Gender">
+                                Male
+                            </label>
+                        </div>
+                        <div class="form-check px-4">
+                            <input asp-for="Gender" class="form-check-input" value="female" type="radio" id="genderFemale">
+                            <label class="form-check-label" for="Gender">
+                                Female
+                            </label>
+                        </div>
+                        <div class="form-check px-4">
+                            <input asp-for="Gender" class="form-check-input" value="other" type="radio" id="genderOther">
+                            <label class="form-check-label" for="Gender">
+                                Other
+                            </label>
+                        </div>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label fw-bold"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="form-check">
+                        <input asp-for="IsActive" class="form-check-input" type="checkbox" id="isActive" checked>
+                        <label class="form-check-label fw-bold" for="isActive">Mark as Active</label>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Address" class="form-label fw-bold"></label>
+                    <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-5">
+                    <label asp-for="ImageFile" class="form-label fw-bold"></label>
+                    <input asp-for="ImageFile" class="form-control" accept="image/*" />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="submit" value="Submit" class="btn btn-primary w-50" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div class="col-md-6">
+            <a asp-controller="Actor" asp-action="Index" class="btn btn-info">View all Actors</a>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

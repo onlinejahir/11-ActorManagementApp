@@ -1,0 +1,115 @@
+﻿@model IEnumerable<ActorIndexVM>
+
+@{
+    ViewData["Title"] = "All Actors";
+}
+
+<div class="container">
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-info">
+            @ViewBag.Message
+        </div>
+    }
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info">
+            @TempData["Message"]
+        </div>
+    }
+    <div class="row p-2">
+        <div class="col-md-12">
+            <h3>All Actors</h3>
+        </div>
+    </div>
+    <div class="row p-2">
+        <div class="col-md-6">
+            <a asp-controller="Actor" asp-action="Create" class="btn btn-primary me-2">Add New Actor</a>
+            <a asp-controller="Actor" asp-action="Index" class="btn btn-info">View All</a>
+        </div>
+    </div>
+    <div class="row p-2">
+        <div class="col-md-12">
+            <table class="table table-striped table-bordered table-success">
+                <thead>
+                    <tr>
+                        <th>
+                            <label asp-for="@Model.First().FirstName"></label>
+                        </th>
+                        <th>
+                            <label asp-for="@Model.First().LastName"></label>
+                        </th>
+                        <th>
+                            <label asp-for="@Model.First().DateOfBirth"></label>
+                        </th>
+                        <th>
+                            <label asp-for="@Model.First().Gender"></label>
+                        </th>
+                        <th>
+                            <label asp-for="@Model.First().Email"></label>
+                        </th>
+                        <th>
+                            <label asp-for="@Model.First().IsActive"></label>
+                        </th>
+                        <th>
+                            <label asp-for="@Model.First().Address"></label>
+                        </th>
+                        <th>
+                            <label>Image</label>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <span asp-for="@item.FirstName">@item.FirstName</span>
+                            </td>
+                            <td>
+                                <span asp-for="@item.LastName">@item.LastName</span>
+                            </td>
+                            <td>
+                                <span asp-for="@item.DateOfBirth">@item.DateOfBirth.ToShortDateString()</span>
+                            </td>
+                            <td>
+                                <span asp-for="@item.Gender">@item.Gender</span>
+                            </td>
+                            <td>
+                                <span asp-for="@item.Email">@item.Email</span>
+                            </td>
+                            <td>
+                                <span asp-for="@item.IsActive">@(item.IsActive ? "Yes" : "No")</span>
+                            </td>
+                            <td>
+                                <span asp-for="@item.Address">@item.Address</span>
+                            </td>
+                            <td>
+                                <img src="~/images-actors/@item.ImageName" asp-append-version="true" style="width:60px;" />
+                            </td>
+                            <td>
+                                <a asp-controller="Actor" asp-action="Edit" asp-route-email="@item.Email" class="btn btn-success me-1" title="Edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-controller="Actor" asp-action="Details" asp-route-email="@item.Email" class="btn btn-info me-1" title="Details">
+                                    <i class="bi bi-info-square"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-controller="Actor" asp-action="Delete" asp-route-email="@item.Email" class="btn btn-danger" title="Delete" onclick="return confirm('Are you sure, you want to delete this actor @item.FirstName')">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

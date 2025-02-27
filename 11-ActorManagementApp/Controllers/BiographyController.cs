@@ -180,9 +180,10 @@ namespace _11_ActorManagementApp.Controllers
             {
                 try
                 {
-                    //Remove the old descriptionfile from wwwroot/description-bio
                     string wwwRootPath = _webHostEnvironment.WebRootPath;
                     string descriptionFolder = "description-bio";
+
+                    //Remove the old descriptionfile from wwwroot/description-bio
                     if (!string.IsNullOrEmpty(existBiography.DescriptionFileName))
                     {
                         string oldFilePath = Path.Combine(wwwRootPath, descriptionFolder, existBiography.DescriptionFileName);
@@ -191,8 +192,10 @@ namespace _11_ActorManagementApp.Controllers
                             System.IO.File.Delete(oldFilePath);
                         }
                     }
+
                     //Upload new descriptioin file
                     string descriptionFileName = await _fileUpload.ImageOrPdfUploadAsync(biographyEditVM.DescriptionFile, descriptionFolder);
+
                     if (!string.IsNullOrEmpty(descriptionFileName))
                     {
                         biographyEditVM.DescriptionFileName = descriptionFileName;
@@ -212,7 +215,7 @@ namespace _11_ActorManagementApp.Controllers
                 }
             }
 
-            //Handle if new biography images uploaded and remove old images
+            //Handle if new biography images(collection) uploaded and remove old images(collection)
             if (biographyEditVM.BioImages != null && biographyEditVM.BioImages.Any())
             {
                 try
@@ -220,45 +223,45 @@ namespace _11_ActorManagementApp.Controllers
                     string wwwRootPath = _webHostEnvironment.WebRootPath;
                     string imageFolder = "images-bio";
 
+                    //Remove old biography images if there are any images
+                    if (existBiography.BiographyImages.Any())
+                    {
+                        foreach (var existingImage in existBiography.BiographyImages.ToList())
+                        {
+                            string oldImagePath = Path.Combine(wwwRootPath, imageFolder, existingImage.ImageName);
+                            if (System.IO.File.Exists(oldImagePath))
+                            {
+                                System.IO.File.Delete(oldImagePath);
+                                //Asynchronous way file deletion
+                                //await Task.Run(() => System.IO.File.Delete(oldImagePath));
+                            }
+                            // Remove image from the Biography collection and database
+                            //existBiography.BiographyImages.Remove(existingImage);
+                            _unitService.BiographyService.RemoveImageFromBiography(existingImage);
+                        }
+                    }
+
                     //Upload new images
                     List<string> newImageNames = await _fileUpload.MultipleImageUploadAsync(biographyEditVM.BioImages, imageFolder);
 
                     if (newImageNames.Any())
                     {
-                        //Remove old biography images after successful upload
-                        if (existBiography.BiographyImages.Any())
-                        {
-                            foreach (var existingImage in existBiography.BiographyImages.ToList())
-                            {
-                                string oldImagePath = Path.Combine(wwwRootPath, imageFolder, existingImage.ImageName);
-                                if (System.IO.File.Exists(oldImagePath))
-                                {
-                                    System.IO.File.Delete(oldImagePath);
-                                    //Asynchronous way file deletion
-                                    //await Task.Run(() => System.IO.File.Delete(oldImagePath));
-                                }
-                                // Remove image from the Biography collection and database
-                                existBiography.BiographyImages.Remove(existingImage);
-                                _unitService.BiographyService.RemoveImageFromBiography(existingImage);
-                            }
-                        }
-
                         //Add new images to the biography image collection
                         foreach (var imageName in newImageNames)
                         {
-                            var newImage = new BiographyImage()
+                            var newBioImage = new BiographyImage()
                             {
                                 BiographyId = existBiography.BiographyId,
                                 ImageName = imageName
                             };
-                            existBiography.BiographyImages.Add(newImage);
+                            existBiography.BiographyImages.Add(newBioImage);
                             //existBiography.BiographyImages.Add(new BiographyImage()
                             //{
                             //    ImageName = imageName
                             //});
                         }
                         //using LINQ to add new images
-                        //existBiography.BiographyImages = newImageNames.Select(imageName => new BiographyImage()
+                        //biographyEditVM.BiographyImages = newImageNames.Select(imageName => new BiographyImage()
                         //{
                         //    ImageName = imageName
                         //}).ToList();

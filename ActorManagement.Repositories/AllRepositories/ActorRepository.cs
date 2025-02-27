@@ -3,6 +3,7 @@ using ActorManagement.Models.EntityModels;
 using ActorManagement.Repositories.Contracts.AllContracts;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,16 @@ namespace ActorManagement.Repositories.AllRepositories
 
         public async Task<Actor?> GetActorByEmailAsync(string email)
         {
-            return await _dbContext.Actors.FirstOrDefaultAsync(a => a.Email == email);
+            return await _dbContext.Actors
+                .Include(a => a.Biography)
+                .ThenInclude(b => b.BiographyImages)
+                .FirstOrDefaultAsync(a => a.Email == email);
+        }
+
+        public override IQueryable<Actor> GetAll()
+        {
+            return _dbContext.Actors
+                .Include(a => a.Biography).AsQueryable();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace ActorManagement.Repositories.AllRepositories
         {
             return await _dbContext.Biographies
                 .Include(b => b.Actor)
-                .Include(b => b.BiographyImages)
+                .Include(b => b.BiographyImages)                    
                 .FirstOrDefaultAsync(b => b.BiographyId == id);
         }
 
@@ -46,7 +46,7 @@ namespace ActorManagement.Repositories.AllRepositories
                 var imageToRemove = biography.BiographyImages.FirstOrDefault(img => img.BiographyImageId == existingImage.BiographyImageId);
                 if (imageToRemove != null)
                 {
-                    //biography.BiographyImages.Remove(imageToRemove);
+                    biography.BiographyImages.Remove(imageToRemove);
                     _dbContext.BiographyImages.Remove(imageToRemove);  // Also remove it from the DbSet to delete the record
                 }
             }

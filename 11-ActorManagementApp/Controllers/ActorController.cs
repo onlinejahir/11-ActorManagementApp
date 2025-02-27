@@ -268,5 +268,52 @@ namespace _11_ActorManagementApp.Controllers
             }
             return RedirectToAction("Index", "Actor");
         }
+        [HttpGet]
+        public async Task<IActionResult> DownloadBiography(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                TempData["Message"] = "Sorry! no biography found.";
+                return RedirectToAction("Index", "Actor");
+            }
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            string filePath = Path.Combine(wwwRootPath, "description-bio", fileName);
+            if (!System.IO.File.Exists(filePath))
+            {
+                TempData["Message"] = "Sorry! no biograhy found";
+                return RedirectToAction("Index", "Actor");
+            }
+
+            //Read the file content
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(filePath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+
+            //Return the file for download
+            return File(memory, "application/pdf", fileName);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetActorImagesPartial(string? email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return PartialView("_ActorImagesPartial", new List<string>() { "No actor found" });
+            }
+            var actor = await _unitService.ActorService.GetActorByEmailAsync(email);
+            List<string> imageName = new List<string>();
+
+            if (actor?.Biography?.BiographyImages != null && actor.Biography.BiographyImages.Any())
+            {
+                foreach (var image in actor.Biography.BiographyImages)
+                {
+                    imageName.Add(image.ImageName);
+                }
+                return PartialView("_ActorImagesPartial", imageName);
+            }
+            return PartialView("_ActorImagesPartial", new List<string>() { "No images available" });
+        }
     }
 }

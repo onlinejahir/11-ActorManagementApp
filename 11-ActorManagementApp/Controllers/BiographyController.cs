@@ -236,7 +236,7 @@ namespace _11_ActorManagementApp.Controllers
                                 //await Task.Run(() => System.IO.File.Delete(oldImagePath));
                             }
                             // Remove image from the Biography collection and database
-                            //existBiography.BiographyImages.Remove(existingImage);
+                            existBiography.BiographyImages.Remove(existingImage);
                             _unitService.BiographyService.RemoveImageFromBiography(existingImage);
                         }
                     }
@@ -246,6 +246,8 @@ namespace _11_ActorManagementApp.Controllers
 
                     if (newImageNames.Any())
                     {
+                        //List<BiographyImage> images = new List<BiographyImage>();
+
                         //Add new images to the biography image collection
                         foreach (var imageName in newImageNames)
                         {
@@ -254,12 +256,17 @@ namespace _11_ActorManagementApp.Controllers
                                 BiographyId = existBiography.BiographyId,
                                 ImageName = imageName
                             };
+
+                            //images.Add(newBioImage);
+
                             existBiography.BiographyImages.Add(newBioImage);
+
                             //existBiography.BiographyImages.Add(new BiographyImage()
                             //{
                             //    ImageName = imageName
                             //});
-                        }
+                        }                        
+
                         //using LINQ to add new images
                         //biographyEditVM.BiographyImages = newImageNames.Select(imageName => new BiographyImage()
                         //{

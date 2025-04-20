@@ -3,6 +3,7 @@ using _11_ActorManagementApp.ViewModels.ActorVM;
 using ActorManagement.Models.EntityModels;
 using ActorManagement.Services.Contracts.AllContracts;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
@@ -21,6 +22,7 @@ namespace _11_ActorManagementApp.Controllers
             this._webHostEnvironment = webHostEnvironment;
             this._fileUpload = new FileUpload(_webHostEnvironment.WebRootPath);
         }
+        [Authorize]
         public async Task<IActionResult> Index(string text)
         {
             ViewBag.Message = text;
@@ -28,6 +30,7 @@ namespace _11_ActorManagementApp.Controllers
             IEnumerable<ActorIndexVM> actorsVM = _mapper.Map<IEnumerable<ActorIndexVM>>(actors);
             return View(actorsVM);
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Create()
         {

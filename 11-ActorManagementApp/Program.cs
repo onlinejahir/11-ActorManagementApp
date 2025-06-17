@@ -1,6 +1,9 @@
+using _11_ActorManagementApp.EmailServices;
+using _11_ActorManagementApp.EmailServices.Contracts;
 using _11_ActorManagementApp.ProjectModels;
 using _11_ActorManagementApp.ProjectModels.Contracts;
 using ActorManagement.Database.Data;
+using ActorManagement.Database.DbSeeder;
 using ActorManagement.Models.EntityModels;
 using ActorManagement.Repositories.AllRepositories;
 using ActorManagement.Repositories.Contracts.AllContracts;
@@ -9,12 +12,13 @@ using ActorManagement.Services.Contracts.AllContracts;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace _11_ActorManagementApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +31,8 @@ namespace _11_ActorManagementApp
             builder.Services.AddScoped<IUnitService, UnitService>();
             builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppUserClaimsPrincipalFactory>();
             builder.Services.AddScoped<ILoggedInUserInfo, LoggedInUserInfo>();
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+            builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddControllersWithViews()
             .AddNewtonsoftJson(options =>
             {
@@ -79,6 +85,13 @@ namespace _11_ActorManagementApp
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            //Call SeedIdentityRolesAsync() method to seed role/admin data
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                await IdentityRolesSeeder.SeedIdentityRolesAsync(services);
+            }
 
             app.Run();
         }

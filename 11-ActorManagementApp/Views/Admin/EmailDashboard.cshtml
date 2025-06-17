@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Admin Email Dashboard";
+}
+
+<div class="container">
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-info">
+            @ViewBag.Message
+        </div>
+    }
+    <div class="row p-3">
+        <div class="my-3">
+            <h3>Admin Email Dashboard</h3>
+        </div>
+
+        <form asp-controller="Admin" asp-action="SendBulkEmail" method="post" onsubmit="return confirm('Are you sure you want to send bulk email?');">
+            <button type="submit" class="btn btn-outline-danger">
+                <i class="bi bi-envelope-fill"></i> Send Bulk Email
+            </button>
+        </form>
+    </div>
+</div>
+
+

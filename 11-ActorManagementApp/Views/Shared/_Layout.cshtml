@@ -28,6 +28,34 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Actor" asp-action="Index">Actors</a>
+                            </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Admin
+                                    </a>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a asp-controller="Admin" asp-action="ListRoles" class="dropdown-item">All Roles</a>
+                                        </li>
+                                        <li>
+                                            <a asp-controller="Admin" asp-action="EmailDashboard" class="dropdown-item">Email Dashboard</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SendEmail">Contact</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         <partial name="_LoginInfoPartial" />

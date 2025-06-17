@@ -1,0 +1,49 @@
+﻿@model CreateRoleVM
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="row p-5">
+            <div class="col-md-4">
+                <div class="my-5">
+                    <h2>Create New Role</h2>
+                </div>
+                <form asp-controller="Admin" asp-action="CreateRole" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group mb-3">
+                        <label asp-for="RoleName" class="form-label fw-bold"></label>
+                        <input asp-for="RoleName" class="form-control" />
+                        <span asp-validation-for="RoleName" class="text-danger"></span>
+                    </div>                     
+                    <div class="form-group">
+                        <input type="submit" value="Create Role" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <img src="~/images-identity/sign-up.png" class="img-fluid" />
+            </div>
+        </div>
+
+        <div>
+            <p>Click <a asp-controller="Account" asp-action="Login">here</a> to Login</p>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\EmailTemplates\EmailSubject.txt" />
+    <Content Remove="wwwroot\EmailTemplates\EmailTemplate.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Views\Movie\" />
     <Folder Include="wwwroot\images-actors\" />
     <Folder Include="wwwroot\description-bio\" />
@@ -15,7 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="C:\Users\jahir\Desktop\P file\C#\6 tutorial project\11-ActorManagementApp\11-ActorManagementApp\.editorconfig" />
+    <None Include="wwwroot\EmailTemplates\EmailSubject.txt" />
+    <None Include="wwwroot\EmailTemplates\EmailTemplate.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="MailKit" Version="4.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.1">
@@ -37,6 +49,10 @@
     <ProjectReference Include="..\ActorManagement.Repositories\ActorManagement.Repositories.csproj" />
     <ProjectReference Include="..\ActorManagement.Services.Contracts\ActorManagement.Services.Contracts.csproj" />
     <ProjectReference Include="..\ActorManagement.Services\ActorManagement.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\jahir\Desktop\P file\C#\6 tutorial project\11-ActorManagementApp\11-ActorManagementApp\.editorconfig" />
   </ItemGroup>
 
 </Project>

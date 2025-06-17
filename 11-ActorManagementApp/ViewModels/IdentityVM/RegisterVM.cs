@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace _11_ActorManagementApp.ViewModels.IdentityVM
@@ -21,6 +22,7 @@ namespace _11_ActorManagementApp.ViewModels.IdentityVM
         [Required(ErrorMessage = "Please enter your email")]
         [Display(Name = "Email address")]
         [EmailAddress(ErrorMessage = "Please enter a valid email")]
+        [Remote(action: "IsEmailInUse", controller: "Account")]
         public string Email { get; set; } = string.Empty;
         [Required]
         [DataType(DataType.Password)]

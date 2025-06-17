@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "_NotFound";
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-info">
+        <h4>@ViewBag.ErrorMessage</h4>
+    </div>
+}
+
+<p>Click <a asp-controller="Actor" asp-action="Index">here</a> to see the actors</p>
+
